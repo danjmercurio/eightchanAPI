@@ -16,8 +16,8 @@ u'Vidya Games'
 4114
 ```
 ## Dependencies
-1. Requests
+* requests
 
 ## Thanks
-1. Frederick Brennan
-2. Guido Van Rossum
+* Frederick Brennan
+* Guido Van Rossum
