@@ -1,14 +1,19 @@
 #main file for 8chan api
 
-#8chan url: make this a variable because unfortunately it changes
-MAINURL = 'http://8ch.net/'
-
 #imports
 import requests
 import json
 from board import Board
 from thread import Thread
 from post import Post
+
+#8chan url: make this a variable because unfortunately it changes
+MAINURL = 'http://8ch.net/'
+
+#force all connections to be made securely
+def forceSSL():
+	global MAINURL
+	MAINURL = 'https://8ch.net'
 
 #returns a list of Boards
 def getBoards():
