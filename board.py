@@ -1,5 +1,6 @@
+#a python class that represents a board on 8chan
 class Board():
-	def __init__(self,uri,subtitle,img,sfw,pph,ppd,time,maxposts,ago,uniq_ip,tags,title,indexed):
+	def __init__(self,uri,title,subtitle,time,indexed,sfw,pph,ppd,max,uniq_ip,tags,img,ago):
 		self.uri = uri
 		self.subtitle = subtitle
 		self.img = img
@@ -15,13 +16,13 @@ class Board():
 			self.indexed = False
 		if (indexed == u'1'):
 			self.indexed = True
-		self.max = int(maxposts)
+		self.max = max
 		self.ago = ago
 		self.uniq_ip = uniq_ip
 		self.tags = tags
 
 	def __repr__(self):
-		return 'Board Object of '.join(self.uri)
+		return "<8chan /" + self.uri + "/ board " + str(object.__repr__(self))[1:]
 
 	def isSFW(self):
 		return self.sfw
@@ -31,5 +32,3 @@ class Board():
 
 	def getThreads(self):
 		return True
-
-#, u'uniq_ip': u'3118', u'tags': [u'politics', u'news', u'activism']}
