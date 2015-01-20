@@ -4,20 +4,19 @@
 import json
 
 import requests
-
 from board import Board
 
 
 # 8chan url: make this a variable because unfortunately it changes
-MAINURL = 'http://8ch.net/'
 
-# force all connections to be made securely
-def forceSSL():
-    global MAINURL
-    MAINURL = 'https://8ch.net'
+SCHEMA = 'https://'
+DOMAIN = '8ch.net/'
+MAINURL = SCHEMA + DOMAIN
 
 
-# returns a list of Boards
+# returns a list of boards as Board objects
+
+
 def getBoards():
     boards = []
     boardsJson = json.loads(requests.get(MAINURL + 'boards.json').text)
@@ -31,15 +30,20 @@ def getBoards():
 
 # returns a Board object if board exists, or False otherwise.
 # don't include slashes in uri argument. for example: 'b', NOT '/b/'
+
+
 def getBoard(uri):
+    uri = uri.strip('/')
     boards = getBoards()
     for board in boards:
-        if (board.uri == uri):
+        if (uri == board.uri):
             return board
     return False
 
 
 # returns an integer value of the total number of boards on 8chan
+
+
 def getNumBoards():
     boardsNum = 0
     boardsJson = json.loads(requests.get(MAINURL + 'boards.json').text)
