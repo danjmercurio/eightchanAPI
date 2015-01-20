@@ -37,7 +37,7 @@ True
 ### ...or just the sixth one
 ```python
 >>> import eightchanAPI
->>> files = eightchanAPI.getBoard('a').getThread(398594).getPosts()[5].getFileURLS()
+>>> files = eightchanAPI.getBoard('a').getThread(398594).getPosts()[5].getFileURLs()
 ```
 
 ## Dependencies
