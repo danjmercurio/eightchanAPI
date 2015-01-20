@@ -1,2 +1,2 @@
 class Post():
-	pass
+    pass
