@@ -16,3 +16,5 @@ application/logs/*.php
 /application/cache/_bancha/*.js
 
 *.pyc
+
+/.idea
