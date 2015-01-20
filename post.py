@@ -6,12 +6,21 @@ import requests
 
 class Post():
 
+<<<<<<< HEAD
     def __init__(self, name, number, sub, capcode, com, posttime, fsize, filename, ext, locked, sticky, extra_files, tim, board, page):
+=======
+
+    def __init__(self, name, number, sub, capcode, com, posttime, fsize, filename, ext, locked, sticky, extra_files, board, page):
+>>>>>>> ec8e4aea508f6036aab2648b2f96825cedf0cfb2
         self.sub = sub
         self.name = name
         self.number = int(number)
         self.capcode = capcode
         self.comment = com
+<<<<<<< HEAD
+=======
+
+>>>>>>> ec8e4aea508f6036aab2648b2f96825cedf0cfb2
         self.posttime = int(posttime)
         if (fsize is not None):
             self.fsize = int(fsize)
@@ -30,6 +39,7 @@ class Post():
         if (sticky == u'0'):
             self.sticky = False
         self.extra_files = extra_files
+<<<<<<< HEAD
         self.tim = tim
 
     def getFileURLs(self):
@@ -48,6 +58,18 @@ class Post():
     #     for file in self.getFileURLs():
     #         files.append(requests.get(file))
     #     return files
+=======
+
+    def getFileURLs(self):
+        # https://media.8ch.net/pol/src/1418546321250.jpg
+        return main.SCHEMA + 'media.' + main.DOMAIN + '/' + self.board.uri + '/src/' + self.filename + self.ext
+
+    def getFiles(self):
+        files = []
+        for file in self.getFileURLs():
+            files.append(requests.get(file))
+        return files
+>>>>>>> ec8e4aea508f6036aab2648b2f96825cedf0cfb2
 
     def isLocked(self):
         return self.locked
@@ -74,6 +96,7 @@ class Post():
         return self.extra_files is not None
 
     def getPostAge(self):
+<<<<<<< HEAD
         return int(time.time()) - self.posttime
 
     def checkDubs(self):
@@ -81,3 +104,6 @@ class Post():
 
     def checkTrips(self):
         return str(self.number)[-3:-2] == str(self.number)[-2:-1] == str(self.number)[-1:]
+=======
+        return int(time.time()) - self.posttime
+>>>>>>> ec8e4aea508f6036aab2648b2f96825cedf0cfb2
