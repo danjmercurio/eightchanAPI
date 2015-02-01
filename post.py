@@ -44,12 +44,6 @@ class Post():
         else:
             return False
 
-    # def getFiles(self):
-    #     files = []
-    #     for file in self.getFileURLs():
-    #         files.append(requests.get(file))
-    #     return files
-
     def isLocked(self):
         return self.locked
 
