@@ -54,6 +54,9 @@ comment = first_thread.first_post().comment
 print(comment)
 ```
 
+## License
+This API is licensed under the GNU Lesser General Public License. See [LICENSE.md](LICENSE.md) for more information.
+
 ## Shoutouts
 * Frederick Brennan
 * Guido Van Rossum
