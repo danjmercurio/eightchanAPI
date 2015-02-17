@@ -50,7 +50,7 @@ from infinitechanapi import *
 api = InifinitechanAPI()
 tech = api.get_board('/tech/')
 first_thread = tech.first_thread()
-comment = first_thread.firstPost().comment
+comment = first_thread.first_post().comment
 print(comment)
 ```
 

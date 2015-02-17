@@ -21,7 +21,7 @@ if __name__ == "__main__":
     #print(first_thread)
 
     # Get first post comment for the first thread in the board.
-    comment = first_thread.firstPost().comment
+    comment = first_thread.first_post().comment
     print(comment)
 
   

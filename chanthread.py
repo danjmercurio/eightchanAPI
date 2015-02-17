@@ -5,7 +5,7 @@ import constant
 from chanpost import *
 from chanboard import *
 
-class BoardThread:
+class Thread:
 
     def __init__(self, number, page, last_modified, board):
         self.number = int(number)
@@ -17,10 +17,10 @@ class BoardThread:
     def is_front_page(self):
         return self.page == 0
     
-    def secondsSinceLastModified(self):
+    def seconds_since_last_modified(self):
         return int(time.time()) - self.last_modified
     
-    def getPosts(self):
+    def get_posts(self):
         postsJson = json.loads(requests.get(constant.MAIN_URL + self.board.uri + u'/res/' + str(self.number) + u'.json').text)
         for p in postsJson[u'posts']:
             try:
@@ -82,20 +82,20 @@ class BoardThread:
             self.posts.append(post)
         return self.posts
     
-    def numberOfPosts(self):
+    def number_of_posts(self):
         return len(self.posts)
     
-    def firstPost(self):
+    def first_post(self):
         if (len(self.posts) == 0):
-            return self.getPosts()[0]
+            return self.get_posts()[0]
         else:
             return self.posts[0]
 
-    def getAllFileURLs(self):
+    def get_all_file_urls(self):
         urls = list()
         if len(self.posts) == 0:
             self.getPosts()
 
-        for post in self.getPosts():
-            urls.append(post.getFileURLs())
+        for post in self.get_posts():
+            urls.append(post.get_file_urls())
         return urls
