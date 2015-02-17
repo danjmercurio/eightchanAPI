@@ -1,12 +1,10 @@
-
-import main
 import time
 import requests
+import constant
 # represents an 8chan post
 
-
 class Post():
-
+    
     def __init__(self, name, number, sub, capcode, com, posttime, fsize, filename, ext, locked, sticky, extra_files, tim, board, page):
         self.sub = sub
         self.name = name
@@ -32,47 +30,47 @@ class Post():
             self.sticky = False
         self.extra_files = extra_files
         self.tim = tim
-
+    
     def getFileURLs(self):
         if self.hasFile():
             urls = list()
-            urls.append(main.SCHEMA + 'media.' + main.DOMAIN + self.board.uri + '/src/' + self.tim + self.ext)
+            urls.append(constant.SCHEMA + 'media.' + constant.DOMAIN + self.board.uri + '/src/' + self.tim + self.ext)
             if self.extra_files is not None:
                 for i in self.extra_files:
-                    urls.append(main.SCHEMA + 'media.' + main.DOMAIN + self.board.uri + '/src/' + i[u'tim'] + i[u'ext'])
+                    urls.append(constant.SCHEMA + 'media.' + constant.DOMAIN + self.board.uri + '/src/' + i[u'tim'] + i[u'ext'])
             return urls
         else:
             return False
 
-    def isLocked(self):
-        return self.locked
-
+def isLocked(self):
+    return self.locked
+    
     def isAnon(self):
         return self.name == u'Anonymous'
-
+    
     def getBoard(self):
         return self.board
-
+    
     def getPage(self):
         return self.page
-
+    
     def secondsSinceLastModified(self):
         return int(time.time()) - self.last_modified
-
+    
     def isSticky(self):
         return self.sticky
-
+    
     def hasFile(self):
         return self.filename is not None
-
+    
     def hasMultipleFiles(self):
         return self.extra_files is not None
-
+    
     def getPostAge(self):
         return int(time.time()) - self.posttime
-
+    
     def checkDubs(self):
         return str(self.number)[-2:-1] == str(self.number)[-1:]
-
+    
     def checkTrips(self):
         return str(self.number)[-3:-2] == str(self.number)[-2:-1] == str(self.number)[-1:]

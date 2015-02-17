@@ -1,60 +1,53 @@
+import time
 import requests
-import main
-import thread
 import json
-# a python class that represents a board on 8chan
+import constant
+from boardthread import *
 
+class Board:
 
-class Board():
-
-    def __init__(self, uri, title, subtitle, time, indexed, sfw, pph, ppd, max, uniq_ip, tags, img, ago):
-        self.uri = uri
-        self.subtitle = subtitle
-        self.img = img
-        self.title = title
-        if (sfw == u'0'):
-            self.sfw = False
-        if (sfw == u'1'):
-            self.sfw = True
-        self.pph = int(pph)
-        self.ppd = int(ppd)
-        self.time = time
-        if (indexed == u'0'):
+    def __init__(self, board_json):
+        self.uri = board_json[u'uri']
+        self.title = board_json[u'title']
+        self.subtitle = board_json[u'subtitle']
+        self.time = board_json[u'time']
+        if (board_json[u'indexed'] == u'0'):
             self.indexed = False
-        if (indexed == u'1'):
+        if (board_json[u'indexed'] == u'1'):
             self.indexed = True
-        self.max = max
-        self.ago = ago
-        self.uniq_ip = uniq_ip
-        self.tags = tags
+        if (board_json[u'sfw'] == u'0'):
+            self.sfw = False
+        if (board_json[u'sfw'] == u'1'):
+            self.sfw = True
+        self.pph = board_json[u'pph']
+        self.ppd = board_json[u'ppd']
+        self.max = board_json[u'max']
+        self.uniq_ip = board_json[u'uniq_ip']
+        self.tags = board_json[u'tags']
+        self.img = board_json[u'img']
+        self.ago = board_json[u'ago']
         self.threads = []
 
     def __repr__(self):
         return "<8chan /" + self.uri + "/ board " + str(object.__repr__(self))[1:]
 
-    def isSFW(self):
-        return self.sfw
-
-    def isIndexed(self):
-        return self.indexed
-
-    def firstThread(self):
+    def first_thread(self):
         if (len(self.threads) == 0):
-            return self.getThreads()[0]
+            return self.get_threads()[0]
         else:
             return self.threads[0]
-
-    def getThreads(self):
-        threadsJson = json.loads(requests.get(main.MAINURL + self.uri + '/threads.json').text)
+                
+    def get_threads(self):
+        threadsJson = json.loads(requests.get(constant.MAIN_URL + self.uri + '/threads.json').text)
         for page in threadsJson:
             currentPage = page[u'page']
-            for threadNum in page[u'threads']:
-                self.threads.append(thread.Thread(threadNum[u'no'], currentPage, threadNum[u'last_modified'], self))
+            for thread_json in page[u'threads']:
+                thread = BoardThread(thread_json[u'no'], currentPage, thread_json[u'last_modified'], self)
+                self.threads.append(thread)
         return self.threads
 
-    def getThread(self, threadid):
-        for thread in self.getThreads():
-            if thread.number == int(threadid):
+    def get_thread(self, thread_id):
+        for thread in self.get_threads():
+            if thread.number == int(thread_id):
                 return thread
         return False
-

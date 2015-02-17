@@ -1,13 +1,11 @@
-@@ -1,101 +0,0 @@
 import time
-import main
 import requests
 import json
-import post
-# represents an 8chan thread
+import constant
+from post import *
+from board import *
 
-
-class Thread():
+class BoardThread:
 
     def __init__(self, number, page, last_modified, board):
         self.number = int(number)
@@ -16,14 +14,14 @@ class Thread():
         self.last_modified = int(last_modified)
         self.posts = []
 
-    def isFrontPage(self):
+    def is_front_page(self):
         return self.page == 0
-
+    
     def secondsSinceLastModified(self):
         return int(time.time()) - self.last_modified
-
+    
     def getPosts(self):
-        postsJson = json.loads(requests.get(main.MAINURL + self.board.uri + u'/res/' + str(self.number) + u'.json').text)
+        postsJson = json.loads(requests.get(constant.MAIN_URL + self.board.uri + u'/res/' + str(self.number) + u'.json').text)
         for p in postsJson[u'posts']:
             try:
                 name = p[u'name']
@@ -65,27 +63,28 @@ class Thread():
                 tim = p[u'tim']
             except KeyError:
                 tim = None
-
-            self.posts.append(post.Post(name=name,
-                                        number=number,
-                                        sub=sub,
-                                        capcode=capcode,
-                                        com=com,
-                                        posttime=posttime,
-                                        fsize=fsize,
-                                        filename=filename,
-                                        ext=ext,
-                                        locked=locked,
-                                        sticky=sticky,
-                                        extra_files=extra_files,
-                                        tim=tim,
-                                        board=self.board,
-                                        page=self.page))
+        
+            post = Post(name=name,
+                        number=number,
+                        sub=sub,
+                        capcode=capcode,
+                        com=com,
+                        posttime=posttime,
+                        fsize=fsize,
+                        filename=filename,
+                        ext=ext,
+                        locked=locked,
+                        sticky=sticky,
+                        extra_files=extra_files,
+                        tim=tim,
+                        board=self.board,
+                        page=self.page)
+            self.posts.append(post)
         return self.posts
-
+    
     def numberOfPosts(self):
         return len(self.posts)
-
+    
     def firstPost(self):
         if (len(self.posts) == 0):
             return self.getPosts()[0]
@@ -96,6 +95,7 @@ class Thread():
         urls = list()
         if len(self.posts) == 0:
             self.getPosts()
+
         for post in self.getPosts():
             urls.append(post.getFileURLs())
         return urls
