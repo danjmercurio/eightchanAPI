@@ -1,6 +1,6 @@
 import os
 import sys
-from .infinitechanapi import *
+from infinitechanapi import *
 '''
     This is an example of how to use the API in your main function for your
     projects.

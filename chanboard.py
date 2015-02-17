@@ -2,7 +2,7 @@ import time
 import requests
 import json
 import constant
-from boardthread import *
+from chanthread import *
 
 class Board:
 

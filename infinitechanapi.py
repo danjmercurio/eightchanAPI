@@ -1,7 +1,7 @@
 import json
 import requests
 import constant
-from board import *
+from chanboard import *
 
 class InifinitechanAPI:
     

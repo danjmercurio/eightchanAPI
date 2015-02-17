@@ -2,8 +2,8 @@ import time
 import requests
 import json
 import constant
-from post import *
-from board import *
+from chanpost import *
+from chanboard import *
 
 class BoardThread:
 
