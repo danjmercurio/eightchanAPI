@@ -5,8 +5,8 @@ import constant
 from chanpost import *
 from chanboard import *
 
-class Thread:
 
+class Thread:
     def __init__(self, number, page, last_modified, board):
         self.number = int(number)
         self.page = int(page)
@@ -16,12 +16,15 @@ class Thread:
 
     def is_front_page(self):
         return self.page == 0
-    
+
     def seconds_since_last_modified(self):
         return int(time.time()) - self.last_modified
-    
+
     def get_posts(self):
-        postsJson = json.loads(requests.get(constant.MAIN_URL + self.board.uri + u'/res/' + str(self.number) + u'.json').text)
+        url = constant.MAIN_URL + self.board.uri
+        url += u'/res/' + str(self.number) + u'.json'
+        url = requests.get(url).text
+        postsJson = json.loads(url)
         for p in postsJson[u'posts']:
             try:
                 name = p[u'name']
@@ -63,7 +66,7 @@ class Thread:
                 tim = p[u'tim']
             except KeyError:
                 tim = None
-        
+
             post = Post(name=name,
                         number=number,
                         sub=sub,
@@ -81,10 +84,10 @@ class Thread:
                         page=self.page)
             self.posts.append(post)
         return self.posts
-    
+
     def number_of_posts(self):
         return len(self.posts)
-    
+
     def first_post(self):
         if (len(self.posts) == 0):
             return self.get_posts()[0]

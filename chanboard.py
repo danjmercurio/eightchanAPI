@@ -4,9 +4,10 @@ import json
 import constant
 from chanthread import *
 
-class Board:
 
-    def __init__(self, uri, title, subtitle, time, indexed, sfw, pph, ppd, max, uniq_ip, tags, img, ago):
+class Board:
+    def __init__(self, uri, title, subtitle, time, indexed,
+                 sfw, pph, ppd, max, uniq_ip, tags, img, ago):
         self.uri = uri
         self.subtitle = subtitle
         self.img = img
@@ -29,20 +30,26 @@ class Board:
         self.threads = []
 
     def __repr__(self):
-        return "<8chan /" + self.uri + "/ board " + str(object.__repr__(self))[1:]
+        str = "<8chan /" + self.uri + "/ board "
+        str += str(object.__repr__(self))[1:]
+        return str
 
     def first_thread(self):
         if (len(self.threads) == 0):
             return self.get_threads()[0]
         else:
             return self.threads[0]
-                
+
     def get_threads(self):
-        threadsJson = json.loads(requests.get(constant.MAIN_URL + self.uri + '/threads.json').text)
+        url = requests.get(constant.MAIN_URL + self.uri + '/threads.json').text
+        threadsJson = json.loads(url)
         for page in threadsJson:
             currentPage = page[u'page']
             for thread_json in page[u'threads']:
-                thread = Thread(thread_json[u'no'], currentPage, thread_json[u'last_modified'], self)
+                thread = Thread(thread_json[u'no'],
+                                currentPage,
+                                thread_json[u'last_modified'],
+                                self)
                 self.threads.append(thread)
         return self.threads
 
