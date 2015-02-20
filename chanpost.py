@@ -1,13 +1,12 @@
-
-import main
 import time
 import requests
-# represents an 8chan post
+import constant
 
 
 class Post():
-
-    def __init__(self, name, number, sub, capcode, com, posttime, fsize, filename, ext, locked, sticky, extra_files, tim, board, page):
+    def __init__(self, name, number, sub, capcode, com, posttime,
+                 fsize, filename, ext, locked, sticky, extra_files,
+                 tim, board, page):
         self.sub = sub
         self.name = name
         self.number = int(number)
@@ -33,46 +32,54 @@ class Post():
         self.extra_files = extra_files
         self.tim = tim
 
-    def getFileURLs(self):
+    def get_file_urls(self):
         if self.hasFile():
             urls = list()
-            urls.append(main.SCHEMA + 'media.' + main.DOMAIN + self.board.uri + '/src/' + self.tim + self.ext)
+            url = constant.SCHEMA + 'media.'
+            url += constant.DOMAIN + self.board.uri + '/src/'
+            url += self.tim + self.ext
+            urls.append(url)
             if self.extra_files is not None:
                 for i in self.extra_files:
-                    urls.append(main.SCHEMA + 'media.' + main.DOMAIN + self.board.uri + '/src/' + i[u'tim'] + i[u'ext'])
+                    url = constant.SCHEMA + 'media.' + constant.DOMAIN
+                    url += self.board.uri + '/src/' + i[u'tim'] + i[u'ext']
+                    urls.append(url)
             return urls
         else:
             return False
 
-    def isLocked(self):
+    def is_locked(self):
         return self.locked
 
-    def isAnon(self):
+    def is_anon(self):
         return self.name == u'Anonymous'
 
-    def getBoard(self):
+    def get_board(self):
         return self.board
 
-    def getPage(self):
+    def get_page(self):
         return self.page
 
-    def secondsSinceLastModified(self):
+    def seconds_since_last_modified(self):
         return int(time.time()) - self.last_modified
 
-    def isSticky(self):
+    def is_sticky(self):
         return self.sticky
 
-    def hasFile(self):
+    def has_file(self):
         return self.filename is not None
 
-    def hasMultipleFiles(self):
+    def has_multiple_files(self):
         return self.extra_files is not None
 
-    def getPostAge(self):
+    def get_post_age(self):
         return int(time.time()) - self.posttime
 
-    def checkDubs(self):
+    def check_dubs(self):
         return str(self.number)[-2:-1] == str(self.number)[-1:]
 
-    def checkTrips(self):
-        return str(self.number)[-3:-2] == str(self.number)[-2:-1] == str(self.number)[-1:]
+    def check_trips(self):
+        left = str(self.number)[-3:-2]
+        middle = str(self.number)[-2:-1]
+        right = str(self.number)[-1:]
+        return left == middle == right

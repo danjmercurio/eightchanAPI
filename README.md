@@ -1,48 +1,61 @@
-# eightchanAPI
+# infinitechan-api
+## Description
 A Python API for 8chan
-## Examples
 
-### Get some info on a board
-```python
->>> import eightchanAPI
->>> eightchanAPI.getBoard('v')
-<8chan /v/ board instance object at 0x0000000003C3A548>
->>> eightchanAPI.getBoard('v').isSFW()
-False
->>> eightchanAPI.getBoard('v').title
-u'Video Games'
->>> eightchanAPI.getBoard('v').subtitle
-u'Vidya Games'
->>> eightchanAPI.getNumBoards()
-4114
-```
-### Get the first post on each board
-```python
->>> import eightchanAPI
->>> boards = eightchanAPI.getBoards()
->>> for board in boards:
-        print board.firstThread().firstPost().comment
-```
-### Did the OP get doubles?
-```python
->>> import eightchanAPI
->>> eightchanAPI.getBoard('k').getThread(454584).firstPost().checkDubs()
-True
-```
-### Get all of the images from a thread
-```python
->>> import eightchanAPI
->>> thread = eightchanAPI.getBoard('a').getThread(398594).getAllFileURLs()
-```
-### ...or just the sixth one
-```python
->>> import eightchanAPI
->>> files = eightchanAPI.getBoard('a').getThread(398594).getPosts()[5].getFileURLs()
-```
+## Features
+* List all boards
+* View board details
+* List all threads in specific board
+* List all posts in specific thread
+* Read post comment
+* Download post image
+
+## System Requirements
+* Python 2.7.x
 
 ## Dependencies
 * requests
 * json
+* pep8
+
+## Build Instructions
+There are no build instructions, basically make sure you import the api header like this.
+
+```python
+from infinitechanapi import *
+```
+
+That's it! You are now ready to interact with 8chan. Read the usage section to see how to use this API.
+
+## Usage (Examples)
+### List All Boards
+```python
+from infinitechanapi import *
+api = InifinitechanAPI()
+boards = api.get_boards();
+print(boards)
+```
+
+### View Board Details
+```python
+from infinitechanapi import *
+api = InifinitechanAPI()
+tech = api.get_board('/tech/')
+print(tech)
+```
+
+### Get Comment
+```python
+from infinitechanapi import *
+api = InifinitechanAPI()
+tech = api.get_board('/tech/')
+first_thread = tech.first_thread()
+comment = first_thread.first_post().comment
+print(comment)
+```
+
+## License
+This API is licensed under the GNU Lesser General Public License. See [LICENSE.md](LICENSE.md) for more information.
 
 ## Shoutouts
 * Frederick Brennan
